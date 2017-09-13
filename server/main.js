@@ -14,9 +14,9 @@ setup.init({ web3, daemonAddress: fundingNode, defaultAccount: fundingNode});
 Meteor.methods({
   faucetRequest: function(response, address) {
     if (verifyCaptcha(response, this.connection.clientAddress)) {
-      transferTo('MLN-T', address, 1)
+      transferTo('MLN-T', address, 10)
       .then(transaction => {
-        let amount = web3.toWei(1, 'ether');
+        let amount = web3.toWei(0.1, 'ether');
         return web3.eth.sendTransaction({from:fundingNode, to:address, value:amount});
       })
       .then(send => {
