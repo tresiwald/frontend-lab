@@ -7,9 +7,16 @@ import verifyCaptcha from '../imports/api/verifyCaptcha.js';
 const fundingNode = '0x00c9D604ccF4Ed3f9cF735e9c3dea921F714B66F';
 
 if (typeof web3 === 'undefined')
-  web3 = new Web3(new Web3.providers.HttpProvider('http://localhost:8545'));
+  web3 = new Web3(new Web3.providers.HttpProvider('http://172.17.0.1:8545'));
 
-setup.init({ web3, daemonAddress: fundingNode, defaultAccount: fundingNode});
+setup.init({
+  web3,
+  daemonAddress: fundingNode,
+  defaultAccount: fundingNode,
+  tracer: ({ timestamp, message, category }) => {
+    console.log(timestamp.toISOString(), `[${category}]`, message);
+  },
+});
 
 Meteor.methods({
   faucetRequest: async function(response, address) {
