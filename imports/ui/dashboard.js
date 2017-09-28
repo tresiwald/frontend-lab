@@ -22,7 +22,7 @@ Template.dashboard.events({
     try {
       toastr.info('Please Wait');
       let res = await callWithPromise('faucetRequest', captchaData, defaultAccount);
-      toastr.success('You have received 0.1 Kovan ETH and 10 Kovan MLN!', 'Success');
+      toastr.success('You have received 2.5 Kovan ETH and 2.5 Kovan MLN!', 'Success');
     } catch(error) {
       toastr.error('Please try again', error.reason);
     }

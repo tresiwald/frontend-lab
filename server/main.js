@@ -21,9 +21,9 @@ setup.init({
 Meteor.methods({
   faucetRequest: async function(response, address) {
     if (verifyCaptcha(response, this.connection.clientAddress)) {
-      return transferTo('MLN-T', address, 10)
+      return transferTo('MLN-T', address, 2.5)
       .then(transaction => {
-        let amount = web3.toWei(0.1, 'ether');
+        let amount = web3.toWei(2.5, 'ether');
         return web3.eth.sendTransaction({from:fundingNode, to:address, value:amount});
       })
       .then(send => {
