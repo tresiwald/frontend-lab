@@ -1,26 +1,21 @@
 @import url('https://fonts.googleapis.com/css?family=Source Sans Pro:400,700,400italic,700italic&subset=latin');/*!
 /* CSS declarations go here  */
-body{font-family:'Source Sans Pro','Helvetica Neue',Arial,Helvetica,sans-serif !important}
+body{background:#fffdf3 !important; font-family:'Source Sans Pro','Helvetica Neue',Arial,Helvetica,sans-serif !important}
 
 .ribbon {
   padding: 100px;
   height: 300px;
-  background: #fffdf3;
   text-align: -webkit-center;
   margin-bottom: 20px;
 }
 
-.card {
-  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.08), 0 3px 4px 0 rgba(0, 0, 0, 0.12);
-}
-
 .card img {
   width: 130px;
+  height: 120px;
 }
 
 .card .btn {
   margin-top: 10px;
-  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.12), 0 1px 2px 0 rgba(0, 0, 0, 0.24);
   border-radius: 2px;
 }
 
