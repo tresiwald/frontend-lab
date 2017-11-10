@@ -4,13 +4,21 @@ import BigNumber from "bignumber.js";
 import Web3 from "web3";
 import verifyCaptcha from "../imports/api/verifyCaptcha.js";
 
+const Raven = require("raven");
 const fundingNode = "0x00c9D604ccF4Ed3f9cF735e9c3dea921F714B66F";
 const maxRequestsPerDay = 3;
 
 // Saving requesting ethereum address and IP address to limit faucet requests
+process.env.HTTP_FORWARDED_COUNT = 1;
 let Requests = new Meteor.Collection("Requests");
 Requests._ensureIndex({ createdAt: 1 }, { expireAfterSeconds: 86400 });
 
+// Configure Sentry DSN with Raven
+Raven.config(
+  "https://***@sentry.io/243362"
+).install();
+
+// Initialize web3 object
 if (typeof web3 === "undefined")
   web3 = new Web3(new Web3.providers.HttpProvider("http://172.17.0.1:8545"));
 
@@ -26,6 +34,7 @@ setup.init({
 Meteor.methods({
   faucetRequest: async function(response, address) {
     const clientIP = this.connection.clientAddress;
+    console.log(this.connection);
     const count = await Requests.find({
       $or: [{ ethereumAddress: address }, { ipAddress: clientIP }]
     }).count();
@@ -49,8 +58,13 @@ Meteor.methods({
         to: address,
         value: amount
       });
-      Requests.insert({ createdAt: new Date(), ethereumAddress: address, ipAddress: clientIP });
+      Requests.insert({
+        createdAt: new Date(),
+        ethereumAddress: address,
+        ipAddress: clientIP
+      });
     } catch (e) {
+      Raven.captureException(e);
       throw new Meteor.Error(400, "Transaction Error");
     }
   }
