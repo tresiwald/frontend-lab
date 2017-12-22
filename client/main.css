@@ -23,3 +23,8 @@ body{background:#fffdf3 !important; font-family:'Source Sans Pro','Helvetica Neu
   margin-bottom: 30px;
   color: #000000;
 }
+
+#address {
+  width: 400px;
+  text-align: center;
+}

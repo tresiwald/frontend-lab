@@ -1,3 +1,4 @@
+
 //Meteor Blogpost Boilplate
 const callWithPromise = (method, ...args) => {
   return new Promise((resolve, reject) => {
