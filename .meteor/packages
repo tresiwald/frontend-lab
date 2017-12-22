@@ -22,3 +22,7 @@ insecure@1.0.7                # Allow all DB writes from clients (for prototypin
 ethereum:web3
 http
 session
+iron:router
+altapp:recaptcha
+ejson
+force-ssl
