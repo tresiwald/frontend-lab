@@ -43,6 +43,17 @@ async function fetchBalance(account) {
   return undefined
 }
 
+Template.dashboard.rendered = async function(a) {
+  const address = Session.get("address");
+
+  if (isAddress(address)) {
+    let err = await fetchBalance(address)
+    if (err != undefined) {
+      Session.set("status", "Failed to fetch account balance")
+    }
+  }
+}
+
 Template.dashboard.events({
   "change #address": async (event) => {
     let defaultAccount = event.target.value;
