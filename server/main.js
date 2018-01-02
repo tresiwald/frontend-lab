@@ -3,8 +3,7 @@ import { setup, getBalance, transferTo } from "@melonproject/melon.js";
 import BigNumber from "bignumber.js";
 import Web3 from "web3";
 
-
-const privateKey = "6LfihjAUAAAAAGSJTMXRTx_Z9t8oyQ7oV37bgEGw";
+const privateKey = Meteor.settings.captcha.privateKey;
 
 const Raven = require("raven");
 
@@ -27,9 +26,6 @@ Requests._ensureIndex({ createdAt: 1 }, { expireAfterSeconds: 86400 });
 Raven.config(
   "https://***@sentry.io/243362"
 ).install();
-
-// http://172.17.0.1:8545
-// http://127.0.0.1:8500
 
 // Initialize web3 object
 if (typeof web3 === "undefined") {
@@ -54,11 +50,9 @@ function getEtherBalance(account) {
   })
 }
 
-const whiteListAddress = [];
+const whiteListAddress = Meteor.settings.whitelist.address;
 
-const whiteListIP = [
-  "127.0.0.1"
-]
+const whiteListIP = Meteor.settings.whitelist.ip;
 
 async function canRequestTokens(ip, address) {
   if (whiteListIP.indexOf(ip) != -1) {

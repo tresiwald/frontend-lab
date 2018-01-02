@@ -2,7 +2,7 @@
 import '/imports/ui/dashboard';
 import { Session } from "meteor/session";
 
-const publicKey = "6LfihjAUAAAAADo3-U5liH1s0KS16HJCMBdnb4_J";
+const publicKey = Meteor.settings.public.captcha.publicKey;
 
 Meteor.startup(function() {  
   reCAPTCHA.config({

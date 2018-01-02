@@ -1,3 +1,3 @@
 
-export const ETH = 3;
-export const MLN = 10.1;
+export const ETH = Meteor.settings.public.quantities.eth;
+export const MLN = Meteor.settings.public.quantities.mln;
