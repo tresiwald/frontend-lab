@@ -95,7 +95,6 @@ Meteor.methods({
 
     console.log("Valid: ", isValidIP)
     
-    /*
     // Check for Request Limits
     if (!isValidIP) {
       throw new Meteor.Error(
@@ -103,7 +102,6 @@ Meteor.methods({
         `You have requested more than ${maxRequestsPerDay} times in the last 24 hours. Please try again later`
       );
     }
-    */
 
     // Transfer MLN-T and K-ETH
     try {
