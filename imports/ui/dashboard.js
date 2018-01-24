@@ -7,8 +7,6 @@ import {faucetRequest, getBalance} from '../api/api'
 import {ETH, MLN} from "../lib/constants";
 import {isAddress} from '../lib/utils'
 
-import {states, colors} from '../lib/constants'
-
 Template.dashboard.helpers({
   kovanAddress() {
     return Session.get("address");
