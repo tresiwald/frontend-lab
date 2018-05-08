@@ -164,7 +164,7 @@ fit(
     shared.subscriptionRequest = await invest(environment, {
       fundAddress: shared.vault.address,
       numShares: new BigNumber(2),
-      offeredValue: new BigNumber(20),
+      offeredValue: new BigNumber(22),
       isNativeAsset: false,
     });
 

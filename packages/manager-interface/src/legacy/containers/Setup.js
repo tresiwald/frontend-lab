@@ -1,7 +1,7 @@
-import { connect } from "react-redux";
-import { reduxForm } from "redux-form";
-import Setup from "../components/organisms/Setup";
-import { actions } from "../actions/fund";
+import { connect } from 'react-redux';
+import { reduxForm } from 'redux-form';
+import Setup from '../components/organisms/Setup';
+import { actions } from '../actions/fund';
 
 const mapStateToProps = state => ({
   loading: state.app.transactionInProgress,
@@ -10,13 +10,13 @@ const mapStateToProps = state => ({
 });
 
 const onSubmit = (values, dispatch) => {
-  dispatch(actions.setupRequested(values.name));
+  dispatch(actions.setupRequested(values.name, values.OasisDex, values.ZeroEx));
 };
 
 const SetupRedux = connect(mapStateToProps)(Setup);
 
 const SetupForm = reduxForm({
-  form: "setup",
+  form: 'setup',
   onSubmit,
 })(SetupRedux);
 

@@ -1,17 +1,17 @@
-import { takeLatest, select, call, put } from "redux-saga/effects";
+import { takeLatest, select, call, put } from 'redux-saga/effects';
 import {
   invest,
   redeem,
   executeRequest,
   redeemAllOwnedAssets,
   getLastRequest,
-} from "@melonproject/melon.js";
-import { delay } from "redux-saga";
-import { types, actions } from "../actions/participation";
-import { actions as fundActions, types as fundTypes } from "../actions/fund";
-import { actions as modalActions } from "../actions/modal";
-import { actions as routesActions } from "../actions/routes";
-import signer from "./signer";
+} from '@melonproject/melon.js';
+import { delay } from 'redux-saga';
+import { types, actions } from '../actions/participation';
+import { actions as fundActions, types as fundTypes } from '../actions/fund';
+import { actions as modalActions } from '../actions/modal';
+import { actions as routesActions } from '../actions/routes';
+import signer from './signer';
 
 function* investSaga(action) {
   function* transaction(environment) {
@@ -20,6 +20,7 @@ function* investSaga(action) {
       fundAddress,
       numShares: action.amount,
       offeredValue: action.total,
+      isNativeAsset: true,
     });
     if (action.directlyExecute) {
       yield call(executeRequest, environment, {
@@ -39,7 +40,9 @@ function* investSaga(action) {
 
   yield call(
     signer,
-    `Do you really want to buy ${action.amount} shares for ${action.total} MLN? If yes, please type your password below:`,
+    `Do you really want to buy ${action.amount} shares for ${
+      action.total
+    } MLN? If yes, please type your password below:`,
     transaction,
     actions.investFailed,
   );
@@ -63,7 +66,9 @@ function* redeemSaga(action) {
 
   yield call(
     signer,
-    `Do you really want to sell ${action.amount} shares for ${action.total} MLN? If yes, please type your password below:`,
+    `Do you really want to sell ${action.amount} shares for ${
+      action.total
+    } MLN? If yes, please type your password below:`,
     transaction,
     actions.redeemFailed,
   );
@@ -82,7 +87,9 @@ function* redeemAllOwnedAssetsSaga(action) {
 
   yield call(
     signer,
-    `Do you really want to immediately redeem ${action.amount} shares? You will receive a subset of the current fund holdings, proportionally to your requested number of shares. If yes, please type your password below:`,
+    `Do you really want to immediately redeem ${
+      action.amount
+    } shares? You will receive a subset of the current fund holdings, proportionally to your requested number of shares. If yes, please type your password below:`,
     transaction,
     actions.redeemAllOwnedAssetsFailed,
   );

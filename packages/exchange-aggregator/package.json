@@ -15,7 +15,7 @@
     "Jenna Zenk <jenna@melonport.com>"
   ],
   "dependencies": {
-    "@melonproject/smart-contracts": "0.8.0-alpha.17",
+    "@melonproject/smart-contracts": "0.8.0-alpha.19",
     "axios": "^0.18.0",
     "bignumber.js": "4.1.0",
     "debug": "2.6.9",

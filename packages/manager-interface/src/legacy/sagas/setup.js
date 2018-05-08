@@ -1,24 +1,24 @@
-import { takeLatest, call, put, take, select } from "redux-saga/effects";
-import slugify from "slugify";
+import { takeLatest, call, put, take, select } from 'redux-saga/effects';
+import slugify from 'slugify';
 
 import {
   setupFund,
   signTermsAndConditions,
   signCompetitionTermsAndConditions,
-} from "@melonproject/melon.js";
-import { actions as modalActions } from "../actions/modal";
+} from '@melonproject/melon.js';
+import { actions as modalActions } from '../actions/modal';
 
-import { types, actions } from "../actions/fund";
-import { actions as appActions, types as appTypes } from "../actions/app";
+import { types, actions } from '../actions/fund';
+import { actions as appActions, types as appTypes } from '../actions/app';
 import {
   actions as rankingActions,
   types as rankingTypes,
-} from "../actions/ranking";
+} from '../actions/ranking';
 import {
   types as routeTypes,
   actions as routeActions,
-} from "../actions/routes";
-import signer from "./signer";
+} from '../actions/routes';
+import signer from './signer';
 
 function* sign() {
   function* transaction(environment) {
@@ -52,7 +52,7 @@ function* signCompetition() {
   );
 }
 
-function* createFund({ name }) {
+function* createFund({ name, OasisDex, ZeroEx }) {
   const rankingLoaded = yield select(
     state => state.ranking.rankingList.length > 0,
   );
@@ -65,13 +65,19 @@ function* createFund({ name }) {
   const ranking = yield select(state => state.ranking.rankingList);
 
   if (ranking.find(fund => slugify(fund.name) === slugify(name))) {
-    yield put(modalActions.error("Fund with similar name already registered"));
+    yield put(modalActions.error('Fund with similar name already registered'));
     return;
   }
-
+  let exchangeNames = [];
+  if (OasisDex) exchangeNames.push('MatchingMarket');
+  if (ZeroEx) exchangeNames.push('ZeroExExchange');
   function* transaction(environment) {
     const signature = yield select(state => state.fund.signature);
-    const fund = yield call(setupFund, environment, { name, signature });
+    const fund = yield call(setupFund, environment, {
+      name,
+      signature,
+      exchangeNames,
+    });
     yield put(
       actions.setupSucceeded({ ...fund, owner: environment.account.address }),
     );

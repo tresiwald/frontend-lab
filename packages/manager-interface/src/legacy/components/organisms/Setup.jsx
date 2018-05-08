@@ -47,9 +47,9 @@ const Setup = ({ loading, handleSubmit, networkId, config }) => (
             <List.Content>
               <strong>Exchange:</strong>
               <br />
-              <Field name="OasisDex" component={renderCheckbox} />
+              <Field name="OasisDex" component={renderCheckbox} /> OasisDex
               <br />
-              <Field name="ZeroEx" component={renderCheckbox} />
+              <Field name="ZeroEx" component={renderCheckbox} /> 0x relayers
               <br />
               <br />
             </List.Content>
@@ -59,18 +59,17 @@ const Setup = ({ loading, handleSubmit, networkId, config }) => (
             as="a"
             href={`https://${
               networkId === '42' ? 'kovan.' : ''
-            }etherscan.io/address/${config.priceFeedAddress}`}
+            }etherscan.io/address/${config.canonicalPriceFeedAddress}`}
             target="_blank"
           >
             <List.Content>
-              Pricefeed: <strong>Thomson Reuters Pricefeed</strong>
+              Pricefeed: <strong>Canonical PriceFeed</strong>
             </List.Content>
           </List.Item>
 
           <List.Item>
             <List.Content>
-              Asset Registrar: <strong>Melon Main Net Asset Universe</strong> (4
-              assets registered)
+              Asset Registrar: <strong>Melon Paros Asset Universe</strong>
             </List.Content>
           </List.Item>
           <List.Item>
@@ -81,7 +80,7 @@ const Setup = ({ loading, handleSubmit, networkId, config }) => (
               target="_blank"
             >
               Compliance (invest/redeem):{' '}
-              <strong>Only manager can invest (in MLN)</strong>
+              <strong>Only manager can invest (in ETH or MLN)</strong>
             </List.Content>
           </List.Item>
           <List.Item>

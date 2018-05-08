@@ -24,6 +24,26 @@
     uuid "^3.1.0"
     web3 "^0.20.0"
 
+"7zip-bin-linux@~1.3.1":
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/7zip-bin-linux/-/7zip-bin-linux-1.3.1.tgz#4856db1ab1bf5b6ee8444f93f5a8ad71446d00d5"
+
+"7zip-bin-mac@~1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/7zip-bin-mac/-/7zip-bin-mac-1.0.1.tgz#3e68778bbf0926adc68159427074505d47555c02"
+
+"7zip-bin-win@~2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/7zip-bin-win/-/7zip-bin-win-2.2.0.tgz#0b81c43e911100f3ece2ebac4f414ca95a572d5b"
+
+"7zip-bin@~3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/7zip-bin/-/7zip-bin-3.1.0.tgz#70814c6b6d44fef8b74be6fc64d3977a2eff59a5"
+  optionalDependencies:
+    "7zip-bin-linux" "~1.3.1"
+    "7zip-bin-mac" "~1.0.1"
+    "7zip-bin-win" "~2.2.0"
+
 "@0xproject/assert@^0.2.5":
   version "0.2.7"
   resolved "https://registry.yarnpkg.com/@0xproject/assert/-/assert-0.2.7.tgz#88c023cf5ae0d1394c19ba42600ec61c78be0295"
@@ -773,19 +793,9 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
-"@melonproject/smart-contracts@0.8.0-alpha.17":
-  version "0.8.0-alpha.17"
-  resolved "https://registry.yarnpkg.com/@melonproject/smart-contracts/-/smart-contracts-0.8.0-alpha.17.tgz#4d86bbe15584cd55aafa769e71453a852be14b03"
-  dependencies:
-    "0x.js" "^0.35.0"
-    "@parity/api" "^2.1.20"
-    bignumber.js "^4.1.0"
-    ethereumjs-testrpc "^4.1.3"
-    request-promise "^4.2.2"
-
-"@melonproject/smart-contracts@0.8.0-alpha.17":
-  version "0.8.0-alpha.17"
-  resolved "https://registry.yarnpkg.com/@melonproject/smart-contracts/-/smart-contracts-0.8.0-alpha.17.tgz#4d86bbe15584cd55aafa769e71453a852be14b03"
+"@melonproject/smart-contracts@0.8.0-alpha.19":
+  version "0.8.0-alpha.19"
+  resolved "https://registry.yarnpkg.com/@melonproject/smart-contracts/-/smart-contracts-0.8.0-alpha.19.tgz#69a3c9c0947ca09167858e083c9d9d31df5c2180"
   dependencies:
     "0x.js" "^0.35.0"
     "@parity/api" "^2.1.20"
