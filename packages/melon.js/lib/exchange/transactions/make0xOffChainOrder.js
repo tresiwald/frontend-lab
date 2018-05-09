@@ -1,4 +1,5 @@
 import Wallet from 'ethers-wallet';
+import Utils from 'ethers-utils';
 import { ZeroEx } from '0x.js';
 import getAddress from '../../assets/utils/getAddress';
 import approve from '../../assets/transactions/approve';
@@ -24,7 +25,6 @@ const networkToTokenTransferProxy = {
 const make0xOffChainOrder = async (
   environment,
   config,
-  relayer,
   network,
   sellSymbol,
   buySymbol,
@@ -78,8 +78,9 @@ const make0xOffChainOrder = async (
   let rawSignature;
 
   if (environment.account.signMessage) {
-    rawSignature = environment.account.signMessage(orderHash);
-    const verified = Wallet.Wallet.verifyMessage(orderHash, rawSignature);
+    const orderArray = Utils.arrayify(orderHash);
+    rawSignature = environment.account.signMessage(orderArray);
+    const verified = Wallet.Wallet.verifyMessage(orderArray, rawSignature);
     ensure(
       verified.toLowerCase() === environment.account.address.toLowerCase(),
       'Invalid signature',
