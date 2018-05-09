@@ -5,37 +5,41 @@ import React from 'react';
 import { Subscription } from 'react-apollo';
 import gql from 'graphql-tag';
 
-const subscription = gql`fragment CommonOrderFragment on Order {
-  ... on OasisDexOrder {
-            id
-          }
-  ... on ZeroExOrder {
-    id: salt
-  }
-  price
-}
-
-subscription OrderbookQuery($baseToken: Symbol!, $quoteToken: Symbol!) {
-  orderbook(baseTokenSymbol: $baseToken, quoteTokenSymbol: $quoteToken) {
-    totalBuyVolume
-    totalSellVolume
-    buyEntries {
-      volume
-      order {
-        ...CommonOrderFragment
-        buy {
-          howMuch
-        }
-        sell {howMuch}
-      }
-
+const subscription = gql`
+  fragment CommonOrderFragment on Order {
+    ... on OasisDexOrder {
+      id
     }
-    sellEntries {
-      volume
-      order {
-        ...CommonOrderFragment
-        sell {
-          howMuch
+
+    ... on ZeroExOrder {
+      id: salt
+    }
+
+    price
+    sell {
+      howMuch
+    }
+  }
+
+  subscription OrderbookQuery($baseToken: Symbol!, $quoteToken: Symbol!) {
+    orderbook(baseTokenSymbol: $baseToken, quoteTokenSymbol: $quoteToken) {
+      totalBuyVolume
+      totalSellVolume
+      buyEntries {
+        volume
+        order {
+          ...CommonOrderFragment
+
+          buy {
+            howMuch
+          }
+        }
+
+      }
+      sellEntries {
+        volume
+        order {
+          ...CommonOrderFragment
         }
       }
     }
