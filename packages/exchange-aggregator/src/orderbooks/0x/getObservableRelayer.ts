@@ -127,7 +127,16 @@ const getObservableRadarRelay = (baseTokenSymbol, quoteTokenSymbol) => {
     .distinctUntilChanged()
     .do(value => debug('Extracting bids and asks.', value))
     .map<AsksAndBids, Order[]>(value => format(value.bids, value.asks))
-    .do(value => debug('Emitting order book.', value));
+    .do(value => debug('Emitting order book.', value))
+    .catch(error => {
+      debug('Failed to fetch orderbook.', {
+        baseTokenAddress,
+        quoteTokenAddress,
+        error,
+      });
+
+      return Rx.Observable.of([]);
+    });
 
   return messages$;
 };

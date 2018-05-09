@@ -39,6 +39,11 @@ module.exports = withComposedConfig({
       '~/shared': path.resolve(__dirname, 'src', 'shared'),
     });
 
+    // Make process.env.DEBUG accessible so we can use the debug package
+    // to print debug messages even in a web worker which does not have
+    // access to the default lookup strategy of the debug package (local storage).
+    config.plugins.push(new webpack.EnvironmentPlugin(['DEBUG']));
+
     // Code splitting doesn't make much sense in an electron app.
     if (JSON.parse(process.env.ELECTRON_PACKAGE)) {
       config.plugins.push(

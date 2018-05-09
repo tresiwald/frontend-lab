@@ -75,9 +75,16 @@ const getObservableErcDex = (baseTokenSymbol, quoteTokenSymbol) => {
     quoteTokenAddress,
   });
 
-  const response$ = Rx.Observable.defer(() =>
+  const format = formatRelayerOrderbook('ERC_DEX');
+
+  const fetch$ = Rx.Observable.defer(() =>
     fetchOrderbook(baseTokenAddress, quoteTokenAddress),
-  )
+  );
+
+  const orderbook$ = fetch$
+    .distinctUntilChanged()
+    .do(value => debug('Extracting bids and asks.', value))
+    .map(value => format(value.bids, value.asks))
     .catch(error => {
       debug('Failed to fetch orderbook.', {
         baseTokenAddress,
@@ -85,21 +92,12 @@ const getObservableErcDex = (baseTokenSymbol, quoteTokenSymbol) => {
         error,
       });
 
-      return Rx.Observable.of({
-        bids: [],
-        asks: [],
-      });
-    })
-    .repeatWhen(() =>
-      getObservableErcDexNotifications(baseTokenAddress, quoteTokenAddress),
-    );
+      return Rx.Observable.of([]);
+    });
 
-  const format = formatRelayerOrderbook('ERC_DEX');
-
-  return response$
-    .distinctUntilChanged()
-    .do(value => debug('Extracting bids and asks.', value))
-    .map(value => format(value.bids, value.asks));
+  return orderbook$.repeatWhen(() =>
+    getObservableErcDexNotifications(baseTokenAddress, quoteTokenAddress),
+  );
 };
 
 export default getObservableErcDex;
