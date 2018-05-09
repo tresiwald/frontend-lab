@@ -8,6 +8,10 @@
 #import "./schema/Query.gql"
 #import "./schema/Price.gql"
 #import "./schema/Subscription.gql"
+#import "./schema/Signature.gql"
+#import "./schema/ZeroExOrder.gql"
+#import "./schema/OasisDexOrder.gql"
+
 
 schema {
   query: Query

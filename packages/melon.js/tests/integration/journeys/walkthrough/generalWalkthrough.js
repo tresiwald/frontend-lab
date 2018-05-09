@@ -21,6 +21,7 @@ import invest from '../../../../lib/participation/transactions/invest';
 import redeem from '../../../../lib/participation/transactions/redeem';
 import awaitDataFeedUpdates from '../../../../lib/pricefeeds/events/awaitDataFeedUpdates';
 import makeOrderFromAccount from '../../../../lib/exchange/transactions/makeOrderFromAccount';
+import make0xOffChainOrder from '../../../../lib/exchange/transactions/make0xOffChainOrder';
 import performCalculations from '../../../../lib/fund/calls/performCalculations';
 import makeOrder from '../../../../lib/fund/transactions/makeOrder';
 import cancelOrder from '../../../../lib/fund/transactions/cancelOrder';
@@ -164,7 +165,7 @@ fit(
     shared.subscriptionRequest = await invest(environment, {
       fundAddress: shared.vault.address,
       numShares: new BigNumber(2),
-      offeredValue: new BigNumber(22),
+      offeredValue: new BigNumber(25),
       isNativeAsset: false,
     });
 
@@ -221,82 +222,92 @@ fit(
       data: shared,
     });
 
-    shared.simpleOrder = await makeOrderFromAccount(environment, {
-      sell: {
-        howMuch: new BigNumber(1),
-        symbol: nativeAssetSymbol,
-      },
-      buy: {
-        howMuch: new BigNumber(7),
-        symbol: 'MLN-T',
-      },
-    });
+    // shared.simpleOrder = await makeOrderFromAccount(environment, {
+    //   sell: {
+    //     howMuch: new BigNumber(1),
+    //     symbol: nativeAssetSymbol,
+    //   },
+    //   buy: {
+    //     howMuch: new BigNumber(7),
+    //     symbol: 'MLN-T',
+    //   },
+    // });
 
-    trace({
-      message: `Regular account made order with id: ${shared.simpleOrder.id}`,
-    });
-    // shared.vault = { address: '0xAecaFE82AfB48DD0b23B2D8622c1f393B780a220' };
-    shared.fundOrder = await makeOrder(environment, {
-      fundAddress: shared.vault.address,
-      exchangeAddress: config.matchingMarketAddress,
-      maker: shared.vault.address,
-      taker: '0x0',
-      makerAssetSymbol: 'MLN-T',
-      takerAssetSymbol: nativeAssetSymbol,
-      feeRecipient: '0x0',
-      makerQuantity: new BigNumber(9),
-      takerQuantity: new BigNumber(1),
-      makerFee: 0,
-      takerFee: 0,
-      timestamp: 0,
-      salt: '0x0',
-      fillTakerTokenAmount: 0,
-      dexySignatureMode: 0,
-      identifier: '0x0',
-      signature: {},
-    });
+    // trace({
+    //   message: `Regular account made order with id: ${shared.simpleOrder.id}`,
+    // });
+    // // shared.vault = { address: '0xAecaFE82AfB48DD0b23B2D8622c1f393B780a220' };
+    // shared.fundOrder = await makeOrder(environment, {
+    //   fundAddress: shared.vault.address,
+    //   exchangeAddress: config.matchingMarketAddress,
+    //   maker: shared.vault.address,
+    //   taker: '0x0',
+    //   makerAssetSymbol: 'MLN-T',
+    //   takerAssetSymbol: nativeAssetSymbol,
+    //   feeRecipient: '0x0',
+    //   makerQuantity: new BigNumber(9),
+    //   takerQuantity: new BigNumber(1),
+    //   makerFee: 0,
+    //   takerFee: 0,
+    //   timestamp: 0,
+    //   salt: '0x0',
+    //   fillTakerTokenAmount: 0,
+    //   dexySignatureMode: 0,
+    //   identifier: '0x0',
+    //   signature: {},
+    // });
 
-    trace({
-      message: `Fund made order with id: ${shared.fundOrder.id}`,
-    });
+    // trace({
+    //   message: `Fund made order with id: ${shared.fundOrder.id}`,
+    // });
 
-    shared.openOrders = await getOpenOrders(environment, {
-      fundAddress: shared.vault.address,
-    });
-    console.log(shared.openOrders);
+    // shared.openOrders = await getOpenOrders(environment, {
+    //   fundAddress: shared.vault.address,
+    // });
+    // console.log(shared.openOrders);
 
-    shared.cancelOrder = await cancelOrder(environment, {
-      fundAddress: shared.vault.address,
-      exchangeAddress: config.matchingMarketAddress,
-      makerAssetSymbol: 'MLN-T',
-      takerAssetSymbol: 'WETH-T',
-      identifier: shared.fundOrder.id,
-    });
-    trace({
-      message: `Fund canceled its open order with id: ${
-        shared.cancelOrder.id
-      } on ${shared.cancelOrder.exchange} exchange`,
-    });
+    // shared.cancelOrder = await cancelOrder(environment, {
+    //   fundAddress: shared.vault.address,
+    //   exchangeAddress: config.matchingMarketAddress,
+    //   makerAssetSymbol: 'MLN-T',
+    //   takerAssetSymbol: 'WETH-T',
+    //   identifier: shared.fundOrder.id,
+    // });
+    // trace({
+    //   message: `Fund canceled its open order with id: ${
+    //     shared.cancelOrder.id
+    //   } on ${shared.cancelOrder.exchange} exchange`,
+    // });
 
-    shared.offChainOrder = {
-      maker: '0x00360d2b7d240ec0643b6d819ba81a09e40e5bcd',
-      taker: '0x0000000000000000000000000000000000000000',
-      feeRecipient: '0x0000000000000000000000000000000000000000',
-      makerTokenAddress: '0xa27af8713623fcc239d49108b1a7b187c133e88b',
-      takerTokenAddress: '0xdc5fc5dab642f688bc5bb58bef6e0d452d7ae123',
-      exchangeContractAddress: '0xb34761bee0788100919106e3d59184fb7c0d5421',
-      salt: '613993',
-      makerFee: '0',
-      takerFee: '0',
-      makerTokenAmount: new BigNumber('380179538776789952').times(10 ** -18),
-      takerTokenAmount: new BigNumber('3735408424271252864').times(10 ** -18),
-      expirationUnixTimestampSec: '1525139211841',
-      ecSignature: {
-        v: 28,
-        r: '0x421ce77a512aba0496c48610760cb5c7609c6fd4f4dbcf620dd7cdc9069c181d',
-        s: '0x4ca0d4d39155744a57dc3e25e6a51fccd6f8c593963df5ea22637b24de562f8a',
-      },
-    };
+    // shared.offChainOrder = {
+    //   maker: '0x00360d2b7d240ec0643b6d819ba81a09e40e5bcd',
+    //   taker: '0x0000000000000000000000000000000000000000',
+    //   feeRecipient: '0x0000000000000000000000000000000000000000',
+    //   makerTokenAddress: '0xa27af8713623fcc239d49108b1a7b187c133e88b',
+    //   takerTokenAddress: '0xdc5fc5dab642f688bc5bb58bef6e0d452d7ae123',
+    //   exchangeContractAddress: '0xb34761bee0788100919106e3d59184fb7c0d5421',
+    //   salt: '613993',
+    //   makerFee: '0',
+    //   takerFee: '0',
+    //   makerTokenAmount: new BigNumber('380179538776789952').times(10 ** -18),
+    //   takerTokenAmount: new BigNumber('3735408424271252864').times(10 ** -18),
+    //   expirationUnixTimestampSec: '1525139211841',
+    //   ecSignature: {
+    //     v: 28,
+    //     r: '0x421ce77a512aba0496c48610760cb5c7609c6fd4f4dbcf620dd7cdc9069c181d',
+    //     s: '0x4ca0d4d39155744a57dc3e25e6a51fccd6f8c593963df5ea22637b24de562f8a',
+    //   },
+    // };
+
+    shared.offChainOrder = await make0xOffChainOrder(
+      environment,
+      config,
+      'KOVAN',
+      'WETH-T',
+      'MLN-T',
+      1,
+      8,
+    );
 
     trace({
       message: `Regular account made order on 0x with orderHash: ${
@@ -313,8 +324,10 @@ fit(
       makerAssetSymbol: 'WETH-T',
       takerAssetSymbol: 'MLN-T',
       feeRecipient: shared.offChainOrder.feeRecipient,
-      makerQuantity: shared.offChainOrder.makerTokenAmount,
-      takerQuantity: shared.offChainOrder.takerTokenAmount,
+      makerQuantity:
+        new BigNumber(shared.offChainOrder.makerTokenAmount) * 10 ** -18,
+      takerQuantity:
+        new BigNumber(shared.offChainOrder.takerTokenAmount) * 10 ** -18,
       makerFee: shared.offChainOrder.makerFee,
       takerFee: shared.offChainOrder.takerFee,
       timestamp: shared.offChainOrder.expirationUnixTimestampSec,

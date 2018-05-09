@@ -12,10 +12,8 @@ const getExchangeIndex = async (
   fundAddress: String,
 ) => {
   const fundContract = await getFundContract(environment, fundAddress);
-  const fundExchanges = await fundContract.instance.getExchangeInfo.call(
-    {},
-    [],
-  );
+
+  const fundExchanges = await fundContract.instance.getExchangeInfo.call();
   // eslint-disable-next-line no-underscore-dangle
   const index = fundExchanges[0].findIndex(e => e._value === exchangeAddress);
   ensure(

@@ -1,4 +1,4 @@
-interface Order {
+type OasisDexOrder implements Order {
   maker: String!
   taker: String
   isActive: Boolean!
@@ -8,4 +8,5 @@ interface Order {
   price: String!
   exchangeContractAddress: String
   exchange: String
+  id: String!
 }
