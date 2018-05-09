@@ -16,10 +16,22 @@ const takeMultipleOrders = async (
 
     if (remainingQuantity.gt(0)) {
       const result = await takeOrder(environment, {
-        id: currentOrder.id,
         fundAddress,
-        quantityAsked: remainingQuantity,
-        exchangeNumber,
+        exchangeAddress: currentOrder.exchangeContractAddress,
+        maker: currentOrder.owner,
+        taker: currentOrder.taker,
+        makerAssetSymbol: currentOrder.sell.symbol,
+        takerAssetSymbol: currentOrder.buy.symbol,
+        feeRecipient: currentOrder.feeRecipient,
+        makerQuantity: currentOrder.sell.howMuch,
+        takerQuantity: currentOrder.buy.howMuch,
+        makerFee: currentOrder.makerFee,
+        takerFee: currentOrder.takerFee,
+        timestamp: currentOrder.expiration,
+        salt: currentOrder.salt,
+        fillTakerTokenAmount: remainingQuantity,
+        identifier: currentOrder.id,
+        signature: currentOrder.signature,
       });
       remainingQuantity = remainingQuantity.minus(result.executedQuantity);
     }

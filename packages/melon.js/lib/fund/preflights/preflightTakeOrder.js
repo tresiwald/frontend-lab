@@ -29,6 +29,7 @@ const preflightTakeOrder = async (
     tokenSymbol: takerAssetSymbol,
     ofAddress: fundContract.address,
   });
+
   ensure(
     sellTokenBalance.gte(fillTakerQuantity),
     `Insufficient balance of ${takerAssetSymbol}`,

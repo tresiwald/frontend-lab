@@ -99,6 +99,7 @@ const takeOrder = async (
     ),
     exchange: getExchangeName(environment, updateLog.params.exchange.value),
     updateType: updateLog.params.updateType.value === 0 ? 'make' : 'take',
+    executedQuantity: fillTakerQuantity,
   };
 };
 
