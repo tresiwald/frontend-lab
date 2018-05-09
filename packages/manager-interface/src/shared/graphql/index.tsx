@@ -3,6 +3,7 @@ import React, { ComponentType } from 'react';
 
 const withApollo = (BaseComponent: ComponentType<any>) => {
   const options: DynamicOptions<any, any> = {
+    ssr: false,
     modules: props => {
       const {
         api = {
