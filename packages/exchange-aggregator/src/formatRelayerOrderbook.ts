@@ -22,8 +22,9 @@ const getPrices = order => ({
 
 const formatRelayerOrderbook = exchange => (bids, asks) => {
   const formattedBids = bids.map(order => ({
-    id: order.salt,
-    owner: order.maker,
+    salt: order.salt,
+    maker: order.maker,
+    taker: order.taker,
     isActive: true,
     sell: {
       symbol: getSymbol(order.makerTokenAddress),
@@ -49,8 +50,9 @@ const formatRelayerOrderbook = exchange => (bids, asks) => {
     exchange,
   }));
   const formattedAsks = asks.map(order => ({
-    id: order.salt,
-    owner: order.maker,
+    salt: order.salt,
+    maker: order.maker,
+    taker: order.taker,
     isActive: true,
     sell: {
       symbol: getSymbol(order.makerTokenAddress),
