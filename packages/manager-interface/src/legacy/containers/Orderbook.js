@@ -4,6 +4,7 @@ import Orderbook from '../components/organisms/Orderbook';
 import React from 'react';
 import { Subscription } from 'react-apollo';
 import gql from 'graphql-tag';
+import { actions } from '../actions/orderbook';
 
 const subscription = gql`
   subscription OrderbookQuery($baseToken: Symbol!, $quoteToken: Symbol!) {
@@ -30,7 +31,6 @@ const subscription = gql`
             howMuch
           }
         }
-
       }
       sellEntries {
         volume
@@ -53,11 +53,19 @@ const subscription = gql`
   }
 `;
 
-const withState = connect(state => ({
+const mapDispatchToProps = dispatch => ({
+  onClick: order => {
+    dispatch(actions.selectOrder(order));
+  },
+});
+
+const mapStateToProps = state => ({
   baseToken: state.app.assetPair.base,
   quoteToken: state.app.assetPair.quote,
   isReadyToTrade: state.app.isReadyToTrade,
-}));
+});
+
+const withState = connect(mapStateToProps, mapDispatchToProps);
 
 const withSubscription = BaseComponent => baseProps => (
   <Subscription

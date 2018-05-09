@@ -46,14 +46,12 @@ const onMouseOut = e => {
   e.currentTarget.style.backgroundColor = 'initial';
 };
 
-const getRowInteraction = (order, onClick, isReadyToTrade) => ({
-  key: order.id,
+const rowInteraction = {
   onMouseOver,
   onMouseOut,
   onFocus: onMouseOver,
   onBlur: onMouseOut,
-  onClick: () => (isReadyToTrade ? onClick(order.id) : null),
-});
+};
 
 const tableBuyHeadCellStyle = {
   fontWeight: 'bold',
@@ -128,7 +126,13 @@ const Orderbook = ({
                       isReadyToTrade,
                       index + 1 === length,
                     )}
-                    {...getRowInteraction(entry.order, onClick, isReadyToTrade)}
+                    key={entry.order.id}
+                    {...rowInteraction}
+                    onClick={() =>
+                      isReadyToTrade
+                        ? onClick(buyEntries.slice(0, index + 1))
+                        : null
+                    }
                     columns={3}
                   >
                     <Grid.Column style={tableSellCellStyle}>
@@ -169,7 +173,13 @@ const Orderbook = ({
                       isReadyToTrade,
                       index + 1 === length,
                     )}
-                    {...getRowInteraction(entry.order, onClick, isReadyToTrade)}
+                    {...rowInteraction}
+                    key={entry.order.id}
+                    onClick={() =>
+                      isReadyToTrade
+                        ? onClick(sellEntries.slice(0, index + 1))
+                        : null
+                    }
                     columns={3}
                   >
                     <Grid.Column style={tableBuyCellStyle}>

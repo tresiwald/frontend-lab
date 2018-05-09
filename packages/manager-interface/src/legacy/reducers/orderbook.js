@@ -1,5 +1,5 @@
-import { types } from "../actions/orderbook";
-import mergeReducer from "../utils/mergeReducer";
+import { types } from '../actions/orderbook';
+import mergeReducer from '../utils/mergeReducer';
 
 export const initialState = {
   orders: [],
@@ -7,7 +7,7 @@ export const initialState = {
   sellOrders: [],
   totalBuyVolume: 0,
   totalSellVolume: 0,
-  selectedOrder: null,
+  selectedOrders: null,
   loading: false,
 };
 
