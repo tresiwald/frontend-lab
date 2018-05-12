@@ -130,7 +130,7 @@ const Orderbook = ({
                     {...rowInteraction}
                     onClick={() =>
                       isReadyToTrade
-                        ? onClick(buyEntries.slice(0, index + 1))
+                        ? onClick(orderbook.buyEntries.slice(0, index + 1))
                         : null
                     }
                     columns={3}
@@ -177,7 +177,7 @@ const Orderbook = ({
                     key={entry.order.id}
                     onClick={() =>
                       isReadyToTrade
-                        ? onClick(sellEntries.slice(0, index + 1))
+                        ? onClick(orderbook.sellEntries.slice(0, index + 1))
                         : null
                     }
                     columns={3}

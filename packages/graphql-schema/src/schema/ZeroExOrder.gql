@@ -8,6 +8,7 @@ type ZeroExOrder implements Order {
   price: String!
   exchangeContractAddress: String
   exchange: String
+  expiration: String
   salt: String!
   makerFee: String!
   takerFee: String!

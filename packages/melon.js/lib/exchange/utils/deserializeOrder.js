@@ -16,6 +16,8 @@ const deserializeOrder = (order: SerializedOrder): Order => {
   const result = order;
   result.buy.howMuch = new BigNumber(order.buy.howMuch);
   result.sell.howMuch = new BigNumber(order.sell.howMuch);
+  result.price = new BigNumber(order.price);
+  result.cumulativeVolume = new BigNumber(order.cumulativeVolume);
   return result;
 };
 

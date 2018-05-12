@@ -18,9 +18,9 @@ export const actions = {
     type: types.GET_ORDERBOOK_SUCCEEDED,
     ...orderbookData,
   }),
-  selectOrder: orders => ({
+  selectOrder: selectedOrders => ({
     type: types.SELECT_ORDER,
-    orders,
+    selectedOrders,
   }),
   setLoading: loading => ({
     type: types.SET_LOADING,

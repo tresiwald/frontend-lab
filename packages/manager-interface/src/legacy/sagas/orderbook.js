@@ -1,14 +1,14 @@
-import { takeLatest, call, put, select, take } from "redux-saga/effects";
+import { takeLatest, call, put, select, take } from 'redux-saga/effects';
 import {
   getOrderbook,
   deserializeOrder,
   averagePrice,
   getEnvironment,
-} from "@melonproject/melon.js";
-import { change } from "redux-form";
-import { types, actions } from "../actions/orderbook";
-import { types as ethereumTypes } from "../actions/ethereum";
-import { min } from "../utils/functionalBigNumber";
+} from '@melonproject/melon.js';
+import { change } from 'redux-form';
+import { types, actions } from '../actions/orderbook';
+import { types as ethereumTypes } from '../actions/ethereum';
+import { min } from '../utils/functionalBigNumber';
 
 function* getOrderbookSaga() {
   const baseTokenSymbol = yield select(state => state.app.assetPair.base);
@@ -40,8 +40,8 @@ function* getOrderbookSaga() {
       result.sell.howMuch = order.sell.howMuch.toString();
       return result;
     });
-    const sellOrders = orders.filter(o => o.type === "sell").reverse();
-    const buyOrders = orders.filter(o => o.type === "buy");
+    const sellOrders = orders.filter(o => o.type === 'sell').reverse();
+    const buyOrders = orders.filter(o => o.type === 'buy');
     const totalSellVolume = buyOrders.length
       ? buyOrders[buyOrders.length - 1].cumulativeVolume
       : 0;
@@ -64,11 +64,16 @@ function* getOrderbookSaga() {
   }
 }
 
-function* selectOrderSaga() {
-  const selectedOrderId = yield select(state => state.orderbook.selectedOrder);
-  const selectedOrder = yield select(state =>
-    state.orderbook.orders.find(o => o.id === selectedOrderId),
-  );
+function* selectOrderSaga(action) {
+  const ordersSubset = action.selectedOrders.map(element => ({
+    ...element['order'],
+    cumulativeVolume: element.volume,
+  }));
+  const selectedOrder = deserializeOrder({
+    ...action.selectedOrders[action.selectedOrders.length - 1]['order'],
+    cumulativeVolume:
+      action.selectedOrders[action.selectedOrders.length - 1]['volume'],
+  });
 
   const sellTokenSymbol = selectedOrder.buy.symbol;
   const sellTokenBalance = yield select(
@@ -84,26 +89,20 @@ function* selectOrderSaga() {
     let price;
     let total;
 
-    if (selectedOrder.type === "buy") {
-      orderType = "Sell";
-      const buyOrders = yield select(state => state.orderbook.buyOrders);
-      const deserializedBuyOrders = buyOrders.map(order =>
+    if (selectedOrder.type === 'buy') {
+      orderType = 'Sell';
+      const deserializedBuyOrders = ordersSubset.map(order =>
         deserializeOrder(order),
       );
-      index = deserializedBuyOrders.indexOf(selectedOrder);
-      subsetOfOrders = deserializedBuyOrders.slice(0, index + 1);
-      price = averagePrice("buy", subsetOfOrders);
+      price = averagePrice('buy', deserializedBuyOrders);
       amount = min(sellTokenBalance, selectedOrder.cumulativeVolume);
       total = price.times(amount);
-    } else if (selectedOrder.type === "sell") {
-      orderType = "Buy";
-      const sellOrders = yield select(state => state.orderbook.sellOrders);
-      const deserializedSellOrders = sellOrders.map(order =>
+    } else if (selectedOrder.type === 'sell') {
+      orderType = 'Buy';
+      const deserializedSellOrders = ordersSubset.map(order =>
         deserializeOrder(order),
       );
-      index = deserializedSellOrders.indexOf(selectedOrder);
-      subsetOfOrders = deserializedSellOrders.slice(0, index + 1);
-      price = averagePrice("sell", subsetOfOrders);
+      price = averagePrice('sell', deserializedSellOrders);
       total = min(
         sellTokenBalance,
         price.times(selectedOrder.cumulativeVolume),
@@ -111,11 +110,11 @@ function* selectOrderSaga() {
       amount = total.div(price);
     }
 
-    yield put(change("trade", "strategy", "Market"));
-    yield put(change("trade", "quantity", amount));
-    yield put(change("trade", "total", total));
-    yield put(change("trade", "price", price));
-    yield put(change("trade", "type", orderType));
+    yield put(change('trade', 'strategy', 'Market'));
+    yield put(change('trade', 'quantity', amount));
+    yield put(change('trade', 'total', total));
+    yield put(change('trade', 'price', price));
+    yield put(change('trade', 'type', orderType));
   } catch (err) {
     console.error(err);
   }

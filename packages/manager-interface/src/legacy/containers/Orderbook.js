@@ -25,11 +25,14 @@ const subscription = gql`
           price
           sell {
             howMuch
+            symbol
           }
 
           buy {
             howMuch
+            symbol
           }
+          type
         }
       }
       sellEntries {
@@ -44,9 +47,15 @@ const subscription = gql`
           }
 
           price
+          buy {
+            howMuch
+            symbol
+          }
           sell {
             howMuch
+            symbol
           }
+          type
         }
       }
     }
@@ -54,8 +63,8 @@ const subscription = gql`
 `;
 
 const mapDispatchToProps = dispatch => ({
-  onClick: order => {
-    dispatch(actions.selectOrder(order));
+  onClick: orders => {
+    dispatch(actions.selectOrder(orders));
   },
 });
 
