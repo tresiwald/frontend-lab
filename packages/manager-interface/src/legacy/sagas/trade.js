@@ -63,10 +63,7 @@ function* takeOrderSaga(action) {
       }),
     ),
   );
-  const selectedOrderId = yield select(state => state.orderbook.selectedOrder);
-  const selectedOrder = yield select(state =>
-    state.orderbook.orders.find(o => o.id === selectedOrderId),
-  );
+  const selectedOrder = yield select(state => state.orderbook.selectedOrder);
   const ourOrderType = action.values.type;
   const theirOrderType = ourOrderType.toLowerCase() === 'buy' ? 'sell' : 'buy';
 
@@ -88,22 +85,12 @@ function* takeOrderSaga(action) {
 
   const priceThreshold = getPrices(selectedOrder)[theirOrderType];
 
-  const buyOrders = yield select(state => state.orderbook.buyOrders);
-  const sellOrders = yield select(state => state.orderbook.sellOrders);
-  const orders =
-    theirOrderType === 'buy'
-      ? buyOrders.map(order => deserializeOrder(order))
-      : sellOrders.map(order => deserializeOrder(order));
-
-  const matchedOrders = matchOrders(theirOrderType, priceThreshold, orders);
-  const quantityAsked = buyHowMuch;
-
+  const fillTakerTokenAmount = sellHowMuch;
   function* transaction(environment) {
     yield call(takeMultipleOrders, environment, {
-      orders: matchedOrders,
-      managerAddress,
+      orders: selectedOrders,
       fundAddress,
-      totalQuantityAsked: quantityAsked,
+      fillTakerTokenAmount,
     });
     yield put(actions.takeOrderSucceeded());
     yield put(modalActions.close());

@@ -4,12 +4,12 @@ import BigNumber from 'bignumber.js';
 import takeOrder from './takeOrder';
 
 /**
- * Takes multiple orders from fund at `fundAddress` upon to `totalQuantityAsked`
+ * Takes multiple orders from fund at `fundAddress` upon to `fillTakerTokenAmount`
  * @param orders sorted and filtered orders by matchOrders
  */
 const takeMultipleOrders = async (
   environment,
-  { orders, fundAddress, totalQuantityAsked, exchangeNumber = 0 },
+  { orders, fundAddress, fillTakerTokenAmount, exchangeNumber = 0 },
 ): Promise<BigNumber> =>
   orders.reduce(async (accumulatorPromise: Promise<*>, currentOrder: any) => {
     let remainingQuantity = await accumulatorPromise;
@@ -37,6 +37,6 @@ const takeMultipleOrders = async (
     }
 
     return remainingQuantity;
-  }, Promise.resolve(new BigNumber(totalQuantityAsked)));
+  }, Promise.resolve(new BigNumber(fillTakerTokenAmount)));
 
 export default takeMultipleOrders;

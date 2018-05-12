@@ -1,27 +1,25 @@
-import { connect } from "react-redux";
-import { reduxForm, change, formValueSelector } from "redux-form";
-import { actions } from "../actions/trade";
-import Trade from "../components/organisms/Trade";
+import { connect } from 'react-redux';
+import { reduxForm, change, formValueSelector } from 'redux-form';
+import { actions } from '../actions/trade';
+import Trade from '../components/organisms/Trade';
 import {
   multiply,
   divide,
   greaterThan,
   max,
   min,
-} from "../utils/functionalBigNumber";
-import displayNumber from "../utils/displayNumber";
+} from '../utils/functionalBigNumber';
+import displayNumber from '../utils/displayNumber';
 
-const selector = formValueSelector("trade");
+const selector = formValueSelector('trade');
 
 const mapStateToProps = state => ({
   loading: state.app.transactionInProgress,
   baseTokenSymbol: state.app.assetPair.base,
   quoteTokenSymbol: state.app.assetPair.quote,
-  orderType: selector(state, "type"),
-  theirOrderType: selector(state, "type") === "Buy" ? "Sell" : "Buy",
-  selectedOrder: state.orderbook.orders.find(
-    o => o.id === state.orderbook.selectedOrder,
-  ),
+  orderType: selector(state, 'type'),
+  theirOrderType: selector(state, 'type') === 'Buy' ? 'Sell' : 'Buy',
+  selectedOrder: state.orderbook.selectedOrder,
   quoteTokenBalance: state.holdings.holdings.length
     ? state.holdings.holdings.find(a => a.name === state.app.assetPair.quote)
         .balance
@@ -31,15 +29,15 @@ const mapStateToProps = state => ({
         .balance
     : undefined,
   initialValues: {
-    strategy: "Market",
-    type: "Buy",
+    strategy: 'Market',
+    type: 'Buy',
   },
   dataValid: state.ethereum.isDataValid,
-  strategy: selector(state, "strategy"),
+  strategy: selector(state, 'strategy'),
 });
 
 const onSubmit = (values, dispatch) => {
-  if (values.strategy === "Market") {
+  if (values.strategy === 'Market') {
     dispatch(actions.takeOrder(values));
   } else {
     dispatch(actions.placeOrder(values));
@@ -59,57 +57,57 @@ const onChange = (values, dispatch, props, previousValues) => {
   if (changed.length === 1) {
     const field = changed[0];
 
-    if (field === "strategy" && previousValues.strategy === "Limit") {
+    if (field === 'strategy' && previousValues.strategy === 'Limit') {
       props.reset();
     }
 
     let maxTotal;
     let maxQuantity;
-    if (values.strategy === "Market") {
+    if (values.strategy === 'Market') {
       maxTotal =
-        values.type === "Buy"
+        values.type === 'Buy'
           ? min(props.quoteTokenBalance, values.total)
           : values.total;
       maxQuantity =
-        values.type === "Sell"
+        values.type === 'Sell'
           ? max(props.baseTokenBalance, values.quantity)
           : values.quantity;
-    } else if (values.strategy === "Limit") {
-      maxTotal = values.type === "Buy" ? props.quoteTokenBalance : Infinity;
-      maxQuantity = values.type === "Sell" ? props.baseTokenBalance : Infinity;
+    } else if (values.strategy === 'Limit') {
+      maxTotal = values.type === 'Buy' ? props.quoteTokenBalance : Infinity;
+      maxQuantity = values.type === 'Sell' ? props.baseTokenBalance : Infinity;
     }
 
-    if (field === "total") {
+    if (field === 'total') {
       if (greaterThan(values.total, maxTotal)) {
-        dispatch(change("trade", "total", maxTotal));
+        dispatch(change('trade', 'total', maxTotal));
       } else if (values.price) {
         const quantity = divide(values.total, values.price);
 
         if (values.quantity !== quantity)
-          dispatch(change("trade", "quantity", displayNumber(quantity)));
+          dispatch(change('trade', 'quantity', displayNumber(quantity)));
       }
     }
 
-    if (field === "quantity") {
+    if (field === 'quantity') {
       if (greaterThan(values.quantity, maxQuantity)) {
-        dispatch(change("trade", "quantity", maxQuantity));
+        dispatch(change('trade', 'quantity', maxQuantity));
       } else if (values.price) {
         const total = multiply(values.quantity, values.price);
         if (values.total !== total)
-          dispatch(change("trade", "total", displayNumber(total)));
+          dispatch(change('trade', 'total', displayNumber(total)));
       }
     }
 
-    if (field === "price") {
+    if (field === 'price') {
       dispatch(
-        change("trade", "total", multiply(values.quantity, values.price)),
+        change('trade', 'total', multiply(values.quantity, values.price)),
       );
     }
   }
 };
 
 const TradeForm = reduxForm({
-  form: "trade",
+  form: 'trade',
   onSubmit,
   onChange,
 })(Trade);

@@ -30,6 +30,8 @@ const subscription = gql`
               r
               s
             }
+            maker
+            taker
           }
 
           price
@@ -67,6 +69,8 @@ const subscription = gql`
               r
               s
             }
+            maker
+            taker
           }
 
           price
