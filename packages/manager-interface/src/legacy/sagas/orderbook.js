@@ -76,10 +76,11 @@ function* selectOrderSaga(action) {
   });
 
   const sellTokenSymbol = selectedOrder.buy.symbol;
-  const sellTokenBalance = yield select(
-    state =>
-      state.holdings.holdings.find(h => h.name === sellTokenSymbol).balance,
-  );
+  const sellTokenBalance = 100;
+  // const sellTokenBalance = yield select(
+  //     state =>
+  //       state.holdings.holdings.find(h => h.name === sellTokenSymbol).balance,
+  //   );
 
   try {
     let index;

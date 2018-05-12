@@ -13,4 +13,5 @@ type ZeroExOrder implements Order {
   makerFee: String!
   takerFee: String!
   signature: Signature
+  feeRecipient: String
 }

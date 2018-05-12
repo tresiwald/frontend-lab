@@ -20,6 +20,16 @@ const subscription = gql`
 
           ... on ZeroExOrder {
             id: salt
+            expiration
+            feeRecipient
+            makerFee
+            takerFee
+            salt
+            signature {
+              v
+              r
+              s
+            }
           }
 
           price
@@ -33,6 +43,9 @@ const subscription = gql`
             symbol
           }
           type
+          exchange
+          exchangeContractAddress
+          isActive
         }
       }
       sellEntries {
@@ -44,6 +57,16 @@ const subscription = gql`
 
           ... on ZeroExOrder {
             id: salt
+            expiration
+            feeRecipient
+            makerFee
+            takerFee
+            salt
+            signature {
+              v
+              r
+              s
+            }
           }
 
           price
@@ -56,6 +79,9 @@ const subscription = gql`
             symbol
           }
           type
+          exchange
+          exchangeContractAddress
+          isActive
         }
       }
     }

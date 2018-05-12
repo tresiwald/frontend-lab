@@ -55,7 +55,14 @@ function* placeOrderSaga(action) {
 function* takeOrderSaga(action) {
   const fundAddress = yield select(state => state.fund.address);
   const managerAddress = yield select(state => state.ethereum.account);
-
+  const selectedOrders = yield select(state =>
+    state.orderbook.selectedOrders.map(element =>
+      deserializeOrder({
+        ...element['order'],
+        cumulativeVolume: element.volume,
+      }),
+    ),
+  );
   const selectedOrderId = yield select(state => state.orderbook.selectedOrder);
   const selectedOrder = yield select(state =>
     state.orderbook.orders.find(o => o.id === selectedOrderId),
