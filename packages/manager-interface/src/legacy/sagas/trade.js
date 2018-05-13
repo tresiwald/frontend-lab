@@ -34,10 +34,12 @@ function* placeOrderSaga(action) {
   function* transaction(environment) {
     yield call(makeOrder, environment, {
       fundAddress,
-      sellWhichToken,
-      buyWhichToken,
-      sellHowMuch,
-      buyHowMuch,
+      exchangeAddress: '0xe23E971aCCa1Ab30017C5ee01080C56b8335c394',
+      maker: fundAddress,
+      makerAssetSymbol: sellWhichToken,
+      takerAssetSymbol: buyWhichToken,
+      makerQuantity: sellHowMuch,
+      takerQuantity: buyHowMuch,
     });
     yield put(actions.placeOrderSucceeded());
     yield put(modalActions.close());
