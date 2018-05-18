@@ -5,9 +5,9 @@
   "license": "AGPL-3.0",
   "scripts": {
     "clean": "rimraf coverage export dist",
-    "dev": "NODE_ENV=development node --require dotenv-extended/config server.js",
-    "build": "NODE_ENV=production node --require dotenv-extended/config $(yarn bin)/next build src",
-    "start": "NODE_ENV=production node --require dotenv-extended/config server.js",
+    "dev": "cross-env NODE_ENV=development server.js",
+    "build": "cross-env NODE_ENV=production next build src",
+    "start": "cross-env NODE_ENV=production server.js",
     "lint": "tslint -p tsconfig.json",
     "format": "prettier --write \"{src,tests}/**/*.{ts,tsx}\"",
     "test": "jest"
@@ -24,6 +24,7 @@
     "babel-plugin-transform-inline-environment-variables": "^0.1.1",
     "bignumber.js": "4.1.0",
     "body-parser": "^1.18.3",
+    "cross-env": "^5.1.5",
     "debug": "2.6.9",
     "dotenv-extended": "^2.0.1",
     "express-recaptcha": "^4.0.2",

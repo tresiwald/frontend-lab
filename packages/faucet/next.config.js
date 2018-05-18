@@ -1,13 +1,12 @@
+require('dotenv-extended').config();
+
 const path = require('path');
 const R = require('ramda');
 const webpack = require('webpack');
 const withTypeScript = require('@zeit/next-typescript');
 const withLinkedDependencies = require('./config/withLinkedDependencies');
 
-const withComposedConfig = R.compose(
-  withLinkedDependencies,
-  withTypeScript,
-);
+const withComposedConfig = R.compose(withLinkedDependencies, withTypeScript);
 
 module.exports = withComposedConfig({
   typescriptLoaderOptions: {
@@ -17,9 +16,7 @@ module.exports = withComposedConfig({
     // hot-module-replacement.
     configFile: path.resolve(__dirname, 'tsconfig.json'),
   },
-  linkedDependencies: [
-    ['@melonproject/melon.js', 'lib'],
-  ],
+  linkedDependencies: [['@melonproject/melon.js', 'lib']],
   distDir: '../dist',
   exportPathMap: () => ({
     '/': { page: '/' },

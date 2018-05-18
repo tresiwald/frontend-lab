@@ -31,7 +31,7 @@ app.prepare().then(() => {
 
   server.post('/', (req, res) => {
     recaptcha.verify(req, (error, data) => {
-      if (!error) {
+      if (error) {
         console.log('error');
       } else {
         console.log('success');
