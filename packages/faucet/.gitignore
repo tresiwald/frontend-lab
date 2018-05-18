@@ -1,4 +1,2 @@
-node_modules/
-mup.js
-settings.json
-.meteor
+/dist/
+/coverage/

@@ -6,6 +6,7 @@
 !packages/graphql-server/Dockerfile
 !packages/manager-components/Dockerfile
 !packages/manager-interface/Dockerfile
+!packages/faucet/Dockerfile
 !packages/melon.js/Dockerfile
 
 # White-list packages.
@@ -14,6 +15,7 @@
 !packages/graphql-server/package.json
 !packages/manager-components/package.json
 !packages/manager-interface/package.json
+!packages/faucet/package.json
 !packages/melon.js/package.json
 
 # Package files required for building production images.
@@ -40,6 +42,14 @@
 !packages/manager-interface/electron.main.js
 !packages/manager-interface/next.config.js
 !packages/manager-interface/tsconfig.json
+
+!packages/faucet/src/
+!packages/faucet/config/
+!packages/faucet/server.js
+!packages/faucet/.babelrc
+!packages/faucet/.env.defaults
+!packages/faucet/next.config.js
+!packages/faucet/tsconfig.json
 
 !packages/manager-components/src/
 !packages/manager-components/config/

@@ -147,6 +147,37 @@ services:
     networks:
       - melonproject
 
+  faucet:
+    build:
+      context: .
+      dockerfile: ./packages/faucet/Dockerfile
+      target: development
+    volumes:
+      - *workspace-prettier
+      - *workspace-tsconfig
+      - *workspace-node-modules
+      - *workspace-node-modules-cache
+      - *package-melon-js
+      - ./packages/faucet/server.js:/app/packages/faucet/server.js
+      - ./packages/faucet/src:/app/packages/faucet/src
+      - ./packages/faucet/config:/app/packages/faucet/config
+      - ./packages/faucet/tests:/app/packages/faucet/tests
+      - ./packages/faucet/package.json:/app/packages/faucet/package.json
+      - ./packages/faucet/tsconfig.json:/app/packages/faucet/tsconfig.json
+      - ./packages/faucet/tslint.json:/app/packages/faucet/tslint.json
+      - ./packages/faucet/next.config.js:/app/packages/faucet/next.config.js
+      - ./packages/faucet/.babelrc:/app/packages/faucet/.babelrc
+      - ./packages/faucet/.env.defaults:/app/packages/faucet/.env.defaults
+      - ./packages/faucet/.env:/app/packages/faucet/.env
+
+      # Mount the node modules of this package with the .cache directory mounted into a volume.
+      - ./packages/faucet/node_modules:/app/packages/faucet/node_modules:delegated
+      - node_modules_cache:/app/packages/faucet/node_modules/.cache
+    ports:
+      - "3001:3001"
+    networks:
+      - melonproject
+
   manager-components:
     build:
       context: .

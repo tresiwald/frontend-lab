@@ -1,13 +1,77 @@
 {
-    "name": "robo",
-    "private": true,
-    "scripts": {
-      "start": "meteor run"
+  "name": "@melonproject/faucet",
+  "version": "0.0.0",
+  "private": true,
+  "license": "AGPL-3.0",
+  "scripts": {
+    "clean": "rimraf coverage export dist",
+    "dev": "NODE_ENV=development node --require dotenv-extended/config server.js",
+    "build": "NODE_ENV=production node --require dotenv-extended/config $(yarn bin)/next build src",
+    "start": "NODE_ENV=production node --require dotenv-extended/config server.js",
+    "lint": "tslint -p tsconfig.json",
+    "format": "prettier --write \"{src,tests}/**/*.{ts,tsx}\"",
+    "test": "jest"
+  },
+  "author": "Melonport <team@melonport.com>",
+  "contributors": [
+    "Sebastian Siemssen <fubhy@fubhy.com>",
+    "Ferran Borreguero <ferran@melonport.com>"
+  ],
+  "dependencies": {
+    "@melonproject/melon.js": "^0.8.1",
+    "axios": "^0.18.0",
+    "babel-plugin-inline-dotenv": "^1.1.1",
+    "babel-plugin-transform-inline-environment-variables": "^0.1.1",
+    "bignumber.js": "4.1.0",
+    "body-parser": "^1.18.3",
+    "debug": "2.6.9",
+    "dotenv-extended": "^2.0.1",
+    "express-recaptcha": "^4.0.2",
+    "next": "^6.0.0",
+    "ramda": "^0.25.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
+  },
+  "devDependencies": {
+    "@zeit/next-typescript": "^0.1.1",
+    "jest": "^22.4.3",
+    "jest-cli": "^22.4.3",
+    "jest-environment-jsdom": "^22.4.3",
+    "prettier": "^1.11.1",
+    "rimraf": "^2.6.2",
+    "ts-jest": "^22.4.2",
+    "tslint": "^5.9.1",
+    "tslint-config-prettier": "^1.10.0",
+    "tslint-react": "^3.5.1",
+    "typescript": "^2.8.1"
+  },
+  "jest": {
+    "setupFiles": [
+      "<rootDir>/tests/config/jest.setup"
+    ],
+    "transform": {
+      "^.+\\.(jsx?|tsx?)$": "ts-jest",
+      "^.+\\.(gql|graphql)$": "<rootDir>/tests/config/gql.transform"
     },
-    "dependencies": {
-      "@melonproject/melon.js": "^0.2.8",
-      "babel-runtime": "^6.20.0",
-      "meteor-node-stubs": "~0.2.4",
-      "raven": "^2.2.1"
+    "transformIgnorePatterns": [
+      "node_modules/(?!@melonproject/)"
+    ],
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleDirectories": [
+      "node_modules/"
+    ],
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "globals": {
+      "ts-jest": {
+        "tsConfigFile": "tsconfig.json"
+      }
     }
+  }
 }
