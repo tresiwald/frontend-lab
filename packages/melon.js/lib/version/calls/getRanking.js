@@ -11,33 +11,24 @@ const getRanking = async environment => {
   const config = await getConfig(environment);
   const rankingContract = await getRankingContract(environment);
   const { versionAddress } = config;
-  const output = await rankingContract.instance.getAddressAndSharePriceOfFunds.call(
+  const [fundAddresses, fundSharePrices, fundInceptions, fundNames] = await rankingContract.instance.getFundDetails.call(
     {},
     [versionAddress],
   );
 
-  /* eslint-disable no-underscore-dangle */
-  const fundAddresses = output[0].map(fund => fund._value);
-  const fundSharePrices = output[1].map(fund =>
-    toReadable(config, fund._value, config.quoteAssetSymbol).toNumber(),
-  );
-  const fundInceptions = output[2].map(fund => fund._value);
-  /* eslint-enable */
-  const getRankingPromises = new Array(fundAddresses.length)
-    .fill(undefined)
-    .map(async (val, index) => {
-      const fundContract = getFundContract(environment, fundAddresses[index]);
-      const name = await fundContract.instance.getName.call();
-      return {
-        address: fundAddresses[index],
-        name,
-        sharePrice: fundSharePrices[index],
-        inception: toDate(fundInceptions[index]),
-      };
-    });
+  console.log(fundAddresses, fundSharePrices);
+  // let ranking = [];
+  // /* eslint-disable no-underscore-dangle */
+  // const fundAddresses = output[0].map(fund => fund._value);
+  // const fundSharePrices = output[1].map(fund =>
+  //   toReadable(config, fund._value, config.quoteAssetSymbol).toNumber(),
+  // );
+  // const fundInceptions = output[2].map(fund => fund._value);
+  // /* eslint-enable */
 
-  const unsortedFunds = await Promise.all(getRankingPromises);
-  return unsortedFunds.sort((a, b) => (a.sharePrice > b.sharePrice ? -1 : 1));
+  // const unsortedFunds = await Promise.all(getRankingPromises);
+  // return unsortedFunds.sort((a, b) => (a.sharePrice > b.sharePrice ? -1 : 1));
+  return [];
 };
 
 export default getRanking;

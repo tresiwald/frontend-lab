@@ -1,4 +1,4 @@
-import { getParityProvider, getPrice } from '@melonproject/melon.js';
+import { getParityProvider, getPrice, getRanking } from '@melonproject/melon.js';
 import { Context } from '../index';
 
 const price = async (parent, args, context: Context) => {
@@ -6,6 +6,12 @@ const price = async (parent, args, context: Context) => {
   return getPrice(environment, args.symbol);
 };
 
+const ranking = async (parent, args, context: Context) => {
+  const environment = await getParityProvider();
+  return getRanking(environment);
+};
+
 export default {
   price,
+  ranking,
 };

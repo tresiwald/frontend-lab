@@ -5,8 +5,10 @@
 #import "./schema/Quantity.gql"
 #import "./schema/Orderbook.gql"
 #import "./schema/OrderbookEntry.gql"
-#import "./schema/Query.gql"
 #import "./schema/Price.gql"
+#import "./schema/RankingEntry.gql"
+#import "./schema/DateTime.gql"
+#import "./schema/Query.gql"
 #import "./schema/Subscription.gql"
 
 schema {

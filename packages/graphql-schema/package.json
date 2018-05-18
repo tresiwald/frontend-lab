@@ -19,6 +19,7 @@
     "@melonproject/melon.js": "^0.8.1",
     "debug": "2.6.9",
     "graphql": "^0.13.2",
+    "graphql-iso-date": "^3.5.0",
     "graphql-tools": "^2.23.1"
   },
   "devDependencies": {
