@@ -1,0 +1,34 @@
+{
+    "captcha": {
+      "privateKey": "..."
+    },
+    "whitelist": {
+      "ip": [
+        "127.0.0.1"
+      ],
+      "address": []
+    },
+    "chains": {
+      "kovan": {
+        "endpoint": "...",
+        "funding": "..."
+      },
+      "melon": {
+        "endpoint": "...",
+        "funding": "..."
+      }
+    },
+    "public": {
+      "chains": [
+        "melon",
+        "kovan"
+      ],
+      "captcha": {
+        "publicKey": "..."
+      },
+      "quantities": {
+        "eth": 1,
+        "mln": 10.1
+      }
+    }
+  }

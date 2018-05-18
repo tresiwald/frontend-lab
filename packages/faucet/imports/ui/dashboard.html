@@ -1,0 +1,39 @@
+
+<template name="dashboard">
+  <div class="ribbon">
+      <div class="container">
+        <h2 class="title">Melon Faucet</h2>
+        <div class="card" style="max-width:600px;">
+          <div class="card-block">
+            <form class="form-register">
+              <input
+                type="text"
+                id="address"
+                name="address"
+                placeholder="address"
+                value="{{kovanAddress}}"
+              />
+              <br />
+              <div>
+                {{status}}
+              </div>
+              <div class="row">
+                <div class="col-5 offset-1">
+                  <p>Ether</p>
+                  <img src="eth.png"/>
+                  <p><b>Balance</b>: {{ethBalance}}</p>
+                </div>
+                <div class="col-5">
+                  <p>MLN</p>
+                  <img src="mln.png"/>
+                  <p><b>Balance</b>: {{mlnBalance}}</p>
+                </div>
+              </div>
+              {{> reCAPTCHA}}
+              <button type="submit" class="btn btn-secondary" disabled="{{isRunning}}">Request</button>
+            </form>
+          </div>
+        </div>
+      </div>
+  </div>
+</template>
